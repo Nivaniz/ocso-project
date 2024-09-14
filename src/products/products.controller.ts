@@ -22,8 +22,8 @@ export class ProductsController {
     return this.productsService.findOne(id);
   }
 
-  @Get(':id')
-  finByProvider(@Param('id', new ParseUUIDPipe({version: '4'})) id: string) {
+  @Get('provider/:id')
+  findByProvider(@Param('id', new ParseUUIDPipe({version: '4'})) id: string) {
     return this.productsService.findByProvider(id);
   }
 
