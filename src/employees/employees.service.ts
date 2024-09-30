@@ -5,6 +5,7 @@ import { v4 as uuid } from "uuid";
 import { InjectRepository } from '@nestjs/typeorm';
 import { Employee } from './entities/employee.entity';
 import { Repository } from 'typeorm';
+import { plainToClass } from 'class-transformer';
 
 @Injectable()
 export class EmployeesService {
@@ -13,10 +14,20 @@ export class EmployeesService {
     private employeeRepository: Repository<Employee>
   ){}
 
-  async create(createEmployeeDto: CreateEmployeeDto) {
-    const employee = await this.employeeRepository.save(createEmployeeDto);
-    return employee;
-  }
+  // Lo modifique por que antes me daba error:
+  /*
+    Hice: npm install class-transformer class-validator
+    Hice:
+    async create(createEmployeeDto: CreateEmployeeDto): Promise<Employee> {
+        const employee = await this.employeeRepository.save(createEmployeeDto);
+        return employee;
+    Me fallo al cambiar employee.entity.ts
+    } 
+  */
+  async create(createEmployeeDto: CreateEmployeeDto): Promise<Employee> {
+    const employee = plainToClass(Employee, createEmployeeDto);
+    return await this.employeeRepository.save(employee);
+}
 
   findAll() {
     return this.employeeRepository.find();
