@@ -8,7 +8,7 @@ import { ROLES } from 'src/auth/constants/roles.constants';
 @Controller('locations')
 export class LocationsController {
   constructor(private readonly locationsService: LocationsService) {}
-
+  //5:28
   @Auth()
   @Post()
   create(@Body() createLocationDto: CreateLocationDto) {
