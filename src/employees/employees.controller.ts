@@ -5,7 +5,11 @@ import { UpdateEmployeeDto } from './dto/update-employee.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { Auth } from 'src/auth/decorators/auth.decorator';
 import { ROLES } from 'src/auth/constants/roles.constants';
+import { ApiResponse } from '@nestjs/swagger';
+import { Employee } from './entities/employee.entity';
+import { ApiAuth } from 'src/auth/decorators/api.decorator';
 
+@ApiAuth()
 @Controller('employees')
 export class EmployeesController {
   constructor(private readonly employeesService: EmployeesService) {}
@@ -17,6 +21,15 @@ export class EmployeesController {
   }
 
   @Auth(ROLES.EMPLOYEE, ROLES.MANAGER)
+  @ApiResponse({
+    status: 201,
+    example: {
+      employeeId: "UUID",
+      employeeName: "Karlo",
+      employeeEmail: "Karlo@gmail.com",
+      employeeLastName: "Paz",
+    } as Employee
+  })
   @Post('upload')
   @UseInterceptors(FileInterceptor('file'))
   uploadPhoto(@UploadedFile() file: Express.Multer.File){
