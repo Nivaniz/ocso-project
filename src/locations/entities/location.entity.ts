@@ -31,7 +31,7 @@ export class Location {
         eager: true,
     })
     @JoinColumn()
-    manager: Manager;
+    manager: Manager | string;
 
     @ManyToOne(() => Region, (region) => region.location)
     region: Region;

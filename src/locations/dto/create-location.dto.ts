@@ -18,5 +18,5 @@ export class CreateLocationDto extends Location{
     region: Region;
     @IsUUID()
     @IsOptional()
-    manager: Manager;
+    manager: string;
 }
