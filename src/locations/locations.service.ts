@@ -31,10 +31,10 @@ export class LocationsService {
   async update(id: number, updateLocationDto: UpdateLocationDto) {
     const location = await this.locationRepository.preload({
       locationId: id,
-      ...UpdateLocationDto,
-    })
+      ...updateLocationDto, // Aquí está la corrección
+    });
     return this.locationRepository.save(location);
-  }
+}
 
   remove(id: number) {
     return this.locationRepository.delete({
