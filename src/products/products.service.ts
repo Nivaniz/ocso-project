@@ -26,7 +26,7 @@ export class ProductsService {
       productId: id,
     })
     if (!product) throw new NotFoundException()
-      return product;
+    return product;
   }
 
   findByProvider(id: string) {
@@ -36,8 +36,6 @@ export class ProductsService {
       }
     })
   }
-  
-  
 
   async update(id: string, updateProductDto: UpdateProductDto) {
     const productToUpdate = await this.productRepository.preload({
