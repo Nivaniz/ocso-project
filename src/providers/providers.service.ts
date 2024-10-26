@@ -31,7 +31,7 @@ export class ProvidersService {
       providerName: Like(`%${name}%`)
     })
     if (!provider) throw new NotFoundException()
-      return provider;
+    return provider;
   }
 
   async update(id: string, updateProviderDto: UpdateProviderDto) {
@@ -46,5 +46,8 @@ export class ProvidersService {
     this.providerRepository.delete({
       providerId: id,
     })
+    return {
+      message: "Provider deleted"
+    }
   }
 }
