@@ -38,7 +38,7 @@ export class Manager {
     @JoinColumn({
         name: "locationId"
     })
-    location: Location;
+    location: Location | string;
     
     @OneToOne(() => User)
     @JoinColumn({
