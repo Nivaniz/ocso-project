@@ -28,5 +28,5 @@ export class Product {
     @ManyToOne(() => Provider, (provider) => provider.products, {
         eager: true,
     })
-    provider: Provider
+    provider: Provider | string
 }
