@@ -20,7 +20,7 @@ export class Employee {
         type: 'text',
         nullable: true,
     })
-    employeePhoto: string;
+    employeePhoto?: string;
 
     @ManyToOne(() => Location, (location) => location.employees)
     location: Location;
