@@ -23,7 +23,7 @@ export class Employee {
     employeePhoto?: string;
 
     @ManyToOne(() => Location, (location) => location.employees)
-    location: Location;
+    location: Location | string;
 
     @OneToOne(() => User)
     @JoinColumn({
