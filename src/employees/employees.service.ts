@@ -59,6 +59,22 @@ export class EmployeesService {
     return employee;
   }
 
+  findOneByUserId(userId: string){
+    const employee = this.employeeRepository.findOne({
+      where: {
+        user: {
+          userId : userId
+        }
+      },
+      relations: {
+        location: true,
+        user: true
+      }
+    })
+    if (!employee) throw new NotFoundException("No employee found");
+    return employee;
+  }
+
   async update(id: string, updateEmployeeDto: UpdateEmployeeDto) {
     const employeeToUpdate = await this.employeeRepository.preload({
       employeeId: id,

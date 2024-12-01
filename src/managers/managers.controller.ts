@@ -32,6 +32,12 @@ export class ManagersController {
   }
 
   @Auth(ROLES.MANAGER)
+  @Get('/user/:userId')
+  findOneByUserId(@Param('userId') userId: string) {
+    return this.managersService.findOneByUserId(userId);
+  }
+
+  @Auth(ROLES.MANAGER)
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateManagerDto: UpdateManagerDto) {
     return this.managersService.update(id, updateManagerDto);

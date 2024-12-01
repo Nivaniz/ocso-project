@@ -9,6 +9,7 @@ import { LoginUserDto } from "./dto/login-user.dto";
 import { UpdateUserDto } from "./dto/update-user.dto";
 import { Employee } from "src/employees/entities/employee.entity";
 import { Manager } from "src/managers/entities/manager.entity";
+import { NotFoundException } from "@nestjs/common";
 
 @Injectable()
 export class AuthService {
@@ -28,8 +29,11 @@ export class AuthService {
     const user = await this.userRepository.save(createUserDto);
     const employee = await this.employeeRepository.preload({
       employeeId: id,
+
     })
+    const employeeSaved = await this.employeeRepository.save(employee)
     employee.user = user;
+    user.employee = employeeSaved.employeeId
     return this.employeeRepository.save(employee)
   }
 
@@ -41,9 +45,11 @@ export class AuthService {
     createUserDto.userPassword = bcrypt.hashSync(createUserDto.userPassword, 5);
     const user = await this.userRepository.save(createUserDto);
     const manager = await this.managerRepository.preload({
-      managerId: id,
+      managerId: id 
     })
+    const managerSaved = await this.managerRepository.save(manager)
     manager.user = user;
+    user.manager = managerSaved.managerId;
     return this.managerRepository.save(manager)
   }
 
@@ -63,6 +69,7 @@ export class AuthService {
     const payload = {
       userEmail: user.userEmail,
       userPassword: user.userPassword,
+      userId: user.userId,
       userRoles: user.userRoles,
     };
     const token = this.jwtService.sign(payload);
@@ -77,5 +84,16 @@ export class AuthService {
     })
     this.userRepository.save(newUserData)
     return newUserData;
+  }
+
+  getUserManagerInfo(email: string){
+    const user = this.userRepository.findOne({
+      where: {userEmail: email},
+      relations: {
+        manager: true
+      }
+    })
+    if (!user) throw new NotFoundException()
+    return user
   }
 }

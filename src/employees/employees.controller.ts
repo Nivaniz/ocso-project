@@ -56,6 +56,12 @@ export class EmployeesController {
   }
 
   @Auth(ROLES.EMPLOYEE)
+  @Get('/user/:userId')
+  findOneByEmail(@Param("userId") userId:string){
+    return this.employeesService.findOneByUserId(userId)
+  }
+
+  @Auth(ROLES.EMPLOYEE)
   @Patch(':id')
   update(@Param('id', new ParseUUIDPipe({version: '4'})) id: string, @Body() updateEmployeeDto: UpdateEmployeeDto)  {
     return this.employeesService.update(id, updateEmployeeDto);

@@ -6,6 +6,8 @@ import { LoginUserDto } from './dto/login-user.dto';
 import { ApiTags } from '@nestjs/swagger';
 import { TOKEN_NAME } from './constants/jwt.constants';
 import { Response } from 'express';
+import { Auth } from './decorators/auth.decorator';
+import { ROLES } from './constants/roles.constants';
 
 @ApiTags("Auth")
 @Controller('auth')
@@ -36,6 +38,12 @@ export class AuthController {
   @Patch("/:id")
   updateUser(@Param('id') userEmail: string, @Body() updateUserDto: UpdateUserDto){
     return this.authService.updateUser(userEmail, updateUserDto)
+  }
+
+  @Auth(ROLES.MANAGER)
+  @Get('/email/:email')
+  findOneByEmail(@Param("email") email:string){
+    return this.authService.getUserManagerInfo(email)
   }
 
 }

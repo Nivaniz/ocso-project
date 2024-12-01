@@ -1,6 +1,6 @@
 import { Employee } from "src/employees/entities/employee.entity";
 import { Manager } from "src/managers/entities/manager.entity";
-import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class User {
@@ -18,8 +18,14 @@ export class User {
     userRoles: string[];
 
     @OneToOne(() => Manager)
-    manager: Manager;
+    @JoinColumn({
+        name: "managerId"
+    })
+    manager: Manager | string;
 
     @OneToOne(() => Employee)
-    employee: Employee;
+    @JoinColumn({
+        name: "employeeId"
+    })
+    employee: Employee | string;
 }
